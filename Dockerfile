@@ -1,13 +1,10 @@
-FROM golang:alpine
-ENV CGO_ENABLED=0
+FROM node:14.17
+ENV NODE_ENV=development
 
 WORKDIR /app
+COPY ["package.json", "package-lock.json*", "./"]
+
+RUN npm install
 COPY . .
-
-RUN go mod download
-RUN go build -o main .
-
-EXPOSE $PORT
-
-CMD [ "./main" ]
+CMD [ "node", "server.js" ]
 
